@@ -21,7 +21,7 @@ class CreateEventsTable extends Migration
             $table->integer('company_id');
             $table->integer('user_id');
             $table->date('date');
-            $table->integer('shift_id');
+            $table->string('shift');
             $table->timestamps();
         });
     }
