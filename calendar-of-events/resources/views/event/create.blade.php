@@ -10,7 +10,7 @@
                 <div class="card-header">{{ __('Create Event') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('events.CheckFirstPart') }}">
+                    <form method="POST" action="{{ route('CheckFormFirstStep') }}">
                         @csrf
                         <div class="form-group row">
                             <label for="project" class="col-md-4 col-form-label text-md-right">{{ __('Project Name') }}</label>

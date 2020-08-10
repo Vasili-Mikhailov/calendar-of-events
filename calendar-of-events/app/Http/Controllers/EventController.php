@@ -50,7 +50,7 @@ class EventController extends Controller
         return view('event.create', ['companies' => $companies]);
     }
 
-    public function createCheckFirstPart(Request $request)
+    public function checkFormFirstStep(Request $request)
     {
         $this->validate($request, [
             'project' => 'required',
@@ -65,10 +65,10 @@ class EventController extends Controller
         $request->session()->put('company', $request->company);
         $request->session()->put('price', $request->price);
 
-        return redirect()->route('events.GetSecondPart');
+        return redirect()->route('GetFormSecondStep');
     }
 
-    public function createGetSecondPart(Request $request)
+    public function getFormSecondStep(Request $request)
     {
 
         $employees = Company::find($request->session()->get('company'))->users()->get();
@@ -91,14 +91,14 @@ class EventController extends Controller
         if($request->session()->has('action')){
             $eventId = $request->session()->get('id');
             $employeeId = $request->session()->get('employeeId');
-            return view('event.editStepTwo', [
+            return view('event.editFormSecondStep', [
                 'employees' => $employees,
                 'shifts' => $shifts,
                 'employeeId' => $employeeId,
                 'eventId' => $eventId
             ]);
         }
-        return view('event.getSecondPart', [
+        return view('event.createFormSecondStep', [
             'employees' => $employees,
             'shifts' => $shifts,
         ]);
@@ -119,6 +119,7 @@ class EventController extends Controller
         $event->user_id = $request->employee;
         $event->date = $request->session()->get('date');
         $event->shift = $request->shift;
+        $event->save();
 
 
         $shift = new Shift;
@@ -127,10 +128,10 @@ class EventController extends Controller
         $shift->company_id = $request->session()->get('company');
         $shift->event_id = $event->id;
 
-        $event->save();
         $shift->save();
 
-        $request->session()->flush();
+        $request->session()
+        ->forget(['project', 'price', 'type', 'company', 'date', 'employee', 'id',]);
 
         return redirect()->route('events.index');
     }
@@ -199,18 +200,20 @@ class EventController extends Controller
         $event->user_id = $request->employee;
         $event->date = $request->session()->get('date');
         $event->shift = $request->shift;
+        $event->save();
 
 
-        $shift = Shift::where('event_id', $id)->get();
+        $shift = Shift::where('event_id', $id)->first();
         $shift->name = $request->shift;
         $shift->date = $request->session()->get('date');
         $shift->company_id = $request->session()->get('company');
         $shift->event_id = $event->id;
-
         $shift->save();
-        $event->save();
 
-        $request->session()->flush();
+        $request->session()
+        ->forget(['project', 'price', 'type', 'company', 'date', 'action', 'employee', 'id',]);
+
+        return redirect()->route('events.show', $event->id);
     }
 
     public function destroy($id)

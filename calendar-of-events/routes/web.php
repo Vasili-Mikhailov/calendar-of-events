@@ -17,10 +17,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('events', 'EventController');
+Route::resource('events', 'EventController')->middleware('auth');
 
-Route::post('events/create/form', 'EventController@createCheckFirstPart')
-->name('events.CheckFirstPart');
+Route::post('events/create/form', 'EventController@checkFormFirstStep')
+->name('CheckFormFirstStep')->middleware('auth');
 
-Route::get('events/create/form', 'EventController@createGetSecondPart')
-->name('events.GetSecondPart');
+Route::get('events/create/form', 'EventController@getFormSecondStep')
+->name('GetFormSecondStep')->middleware('auth');
