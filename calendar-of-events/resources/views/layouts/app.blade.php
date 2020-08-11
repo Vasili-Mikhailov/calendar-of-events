@@ -24,7 +24,10 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
               <a class="navbar-brand" href="{{ route('events.index') }}">
-                  {{ __('All Events') }}
+                  {{ __('Events') }}
+              </a>
+              <a class="navbar-brand" href="{{ route('companies.index') }}">
+                  {{ __('Companies') }}
               </a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                   <span class="navbar-toggler-icon"></span>
@@ -57,11 +60,20 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('events.create') }}"
                                        onclick="event.preventDefault();
-                                                     document.getElementById('create-form').submit();">
+                                                     document.getElementById('create-event-form').submit();">
                                         {{ __('Create Event') }}
                                     </a>
 
-                                    <form id="create-form" action="{{ route('events.create') }}" method="GET" style="display: none;">
+                                    <form id="create-event-form" action="{{ route('events.create') }}" method="GET" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <a class="dropdown-item" href="{{ route('companies.create') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('create-company-form').submit();">
+                                        {{ __('Create Company') }}
+                                    </a>
+
+                                    <form id="create-company-form" action="{{ route('companies.create') }}" method="GET" style="display: none;">
                                         @csrf
                                     </form>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -80,8 +92,16 @@
                 </div>
             </div>
         </nav>
-
         <main class="py-4">
+            @if($errors->any())
+              <div class="alert alert-danger">
+                  <ul>
+                      @foreach($errors->all() as $error)
+                          <li>{{$error}}</li>
+                      @endforeach
+                  </ul>
+              </div>
+            @endif
             @yield('content')
         </main>
     </div>

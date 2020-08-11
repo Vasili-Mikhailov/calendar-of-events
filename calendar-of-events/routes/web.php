@@ -24,3 +24,5 @@ Route::post('events/create/form', 'EventController@checkFormFirstStep')
 
 Route::get('events/create/form', 'EventController@getFormSecondStep')
 ->name('GetFormSecondStep')->middleware('auth');
+
+Route::resource('companies', 'CompanyController')->middleware('auth');
