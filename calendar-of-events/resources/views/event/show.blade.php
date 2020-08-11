@@ -10,13 +10,13 @@
                 <div class="card-header">{{ __('Event information') }}</div>
 
                 <div class="card-body">
-                    <b>Name:</b> {{ $project }} <br>
-                    <b>Price:</b> {{ $price }} <br>
-                    <b>Type:</b> {{ $type }} <br>
-                    <b>Date:</b> {{ $date }} <br>
+                    <b>Name:</b> {{ $event->name }} <br>
+                    <b>Price:</b> {{ $event->price }} <br>
+                    <b>Type:</b> {{ $event->type }} <br>
+                    <b>Date:</b> {{ $event->date }} <br>
                     <b>Company:</b> {{ $company->name }} <br>
                     <b>Employee:</b> {{ $employee->name }} <br>
-                    <b>Shift:</b> {{ $shift }} shift <br>
+                    <b>Shift:</b> {{ $event->shift }} shift <br>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('events.destroy', $id ) }}" method="post">

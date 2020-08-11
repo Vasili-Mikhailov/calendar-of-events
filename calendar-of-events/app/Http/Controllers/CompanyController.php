@@ -35,7 +35,7 @@ class CompanyController extends Controller
         $company = new Company;
         $company->name = $request->name;
         $company->save();
-
+        //linking a user to a new company
         $user = $request->user();
         $user->company_id = $company->id;
         $user->save();
